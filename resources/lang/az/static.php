@@ -14,6 +14,8 @@ return [
                 "posts"=>"Xəbərlər",
                 "projects"=>"Proyektlər",
                 "contactus"=>"Bizimlə Əlaqə",
+                "loginorregister"=>"Daxil ol | Qeydiyyatdan keç",
+                "profile"=>"Hesabım",
                 "notfound"=>"Səhifə tapılmadı"
             ],
         ],
@@ -28,9 +30,18 @@ return [
                 "findusonmap"=>"Bizi xəritədə tap"
             ],
             "slogan"=>"Düşün <b>və</b> yarat."
-        ]
+        ],
+        "pagination"=>[
+            "prev"=>"Əvvəlki",
+            "next"=>"Sonrakı"
+        ],
     ],
     "pages"=>[
+        "posts"=>[
+            "widget"=>[
+                "gallery"=>"Qalereya"
+            ],
+        ],
         "contactus"=>[
             "top"=>[
                 "telephone"=>"Əlaqə saxlayın",
@@ -38,8 +49,11 @@ return [
                 "social"=>"Sosial şəbəkələrdə izlə"
             ],
         ],
-        "posts"=>[
-
+        "loginregister"=>[
+            "titles"=>[
+                "login"=>"Daxil ol",
+                "register"=>"Qeydiyyatdan keç",
+            ],
         ],
     ],
     "form"=>[
@@ -48,7 +62,9 @@ return [
             "email"=>"Elektron poçt",
             "subject"=>"Mövzu",
             "message"=>"Məktub",
-            "typeemail"=>"Emailinizi daxil edin"
+            "typeemail"=>"Emailinizi daxil edin",
+            "phoneNumb"=>"Telefon nömrəsi",
+            "password"=>"Şifrə",
         ],
         "buttons"=>[
             "joinnow"=>"İndi qoşul",

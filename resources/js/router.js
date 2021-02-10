@@ -9,6 +9,8 @@ import Posts from './components/posts';
 import Post from './components/post';
 import Projects from './components/projects';
 import Project from './components/project';
+import Login from './components/user/loginorregister';
+import Profile from './components/user/profile';
 import NotFound from './components/layouts/notfound';
 
 const routes=[
@@ -23,13 +25,28 @@ const routes=[
     {path:"/contactus",name:"contactus",component:Contact},
     {path:"/posts",name:"posts",component:Posts},
     {path:"/post/:slug",name:"post",component:Post},
+    {path:"/loginorregister",name:"loginorregister",component:Login},
+    {path:"/profile",name:"profile",component:Profile}
 ];
 
 const router=new VueRouter({
     mode:"history",
-    
-    routes
+    routes,
+
 });
+
+router.beforeEach((to, from, next) => {
+    if (to.fullPath !== "/login") {
+        axios.get('/api/profile').then(response => {
+            next();
+        }).catch(error => {
+            router.push('/login');
+        })
+    } else {
+        next();
+    }
+})
+
 
 export default router;
 

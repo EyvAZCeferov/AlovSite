@@ -3,7 +3,7 @@
     <div class="firstTransition"></div>
     <!-- end first-transition -->
     <div class="pageTransition"></div>
-    <Header />
+    <Header v-bind:userinf={user} />
     <transition name="firstTransition">
       <router-view></router-view>
     </transition>
@@ -19,6 +19,23 @@ export default {
   components: {
     Header,
     Footer
+  },
+  created() {
+    this.getUser();
+  },
+  methods: {
+    getUser() {
+      axios.get("/api/profile").then(response => {
+        this.user = response.data;
+      }).catch(e=>{
+          return false;
+      });
+    }
+  },
+  data: function() {
+    return {
+      user: null
+    };
   }
 };
 </script>

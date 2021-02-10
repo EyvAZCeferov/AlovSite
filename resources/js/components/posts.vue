@@ -51,8 +51,8 @@
 
             <!-- end news-box -->
             <ul class="pagination">
-              <li class="page-item"><a class="page-link" href="#">PREV</a></li>
-              <Pagination elements="10" />
+              <li class="page-item"><a class="page-link" href="#">{{this.$trans("static.components.pagination.prev")}}</a></li>
+              <li class="page-item"><a class="page-link" href="#">{{this.$trans("static.components.pagination.next")}}</a></li>
             </ul>
             <!-- end pagination -->
           </div>
@@ -60,15 +60,15 @@
           <div class="col-lg-4">
             <aside class="sidebar">
               <div class="widget">
-                <h6 class="widget-title">SEARCH</h6>
+                <h6 class="widget-title">{{this.$trans("static.form.buttons.search")}}</h6>
                 <form>
-                  <input type="search" placeholder="Type here to search" />
-                  <input type="submit" value="Search" />
+                  <input type="search" v-bind:placeholder="this.$trans('static.components.header.search.typesearchkeyword')" />
+                  <input type="submit" v-bind:value="this.$trans('static.form.buttons.search')" />
                 </form>
               </div>
               <!-- end widget -->
               <div class="widget">
-                <h6 class="widget-title">CATEGORIES</h6>
+                <h6 class="widget-title">{{this.$trans("static.components.header.menu.categories")}}</h6>
                 <ul class="categories">
                   <li><a href="#">Business</a></li>
                   <li><a href="#">Construction</a></li>
@@ -82,12 +82,12 @@
               <!-- end widget -->
 
               <div class="widget">
-                <h6 class="widget-title">GALLERY</h6>
+                <h6 class="widget-title">{{this.$trans("static.pages.posts.widget.gallery")}}</h6>
                 <figure>
-                  <img src="images/slide01.jpg" alt="Image" />
+                  <img src="temp/images/slide01.jpg" alt="Image" />
                 </figure>
                 <figure>
-                  <img src="images/slide02.jpg" alt="Image" />
+                  <img src="temp/images/slide02.jpg" alt="Image" />
                 </figure>
               </div>
               <!-- end widget -->

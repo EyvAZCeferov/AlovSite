@@ -5,7 +5,7 @@
         <div class="row">
           <div class="col-12">
             <figure class="logo">
-              <img src="temp/images/logo.png" alt="Image" />
+              <img src="/temp/images/logo.png" alt="Image" />
             </figure>
             <h2 v-html="this.$trans('static.components.footer.slogan')"></h2>
             <a href="#" class="button"
@@ -14,7 +14,7 @@
             ></a>
             <div class="sales-representive">
               <figure>
-                <img src="temp/images/author01.jpg" alt="Image" />
+                <img src="/temp/images/author01.jpg" alt="Image" />
               </figure>
               Sales representative <b>+1 (850) 344 0 66 #20</b> free call !
             </div>

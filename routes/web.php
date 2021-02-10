@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::any('/{any}', 'Standart\BaseController@index')->name('index')->where('any', '.*');
+Route::get('/{any}', 'Standart\BaseController@index')->name('index')->where('any', '.*');
 Route::fallback('Standart\BaseController@fallback')->name('fallback')->where('any', '.*');
 
 Auth::routes();

@@ -2,10 +2,12 @@ require('./bootstrap');
 
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+import VueSocialSharing from 'vue-social-sharing';
 import Paginate from 'vuejs-paginate'
 import General from './components/layouts/general';
 import router from './router';
 Vue.use(VueRouter);
+Vue.use(VueSocialSharing);
 Vue.component('paginate', Paginate);
 
 require('lang.js');
@@ -21,6 +23,9 @@ Vue.use(VueLang, {
 new Vue({
     el: '#app',
     render :h=>h(General),
+    modules:[
+      'vue-social-sharing/nuxt'
+    ],
     router
 });
 

@@ -1224,7 +1224,7 @@ a:hover {
   z-index: 1;
   margin-bottom: -70%;
   box-shadow: 0 0 30px rgba(0, 0, 0, 0.1); }
-  .contact-form input[type="text"] {
+  .contact-form input[type="text"], .contact-form input[type="password"] {
     width: 100%; }
   .contact-form textarea {
     width: 100%; }

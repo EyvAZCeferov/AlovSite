@@ -23,7 +23,7 @@
       <div class="inner">
         <div class="logo">
           <router-link :to="{ name: 'index' }">
-            <a><img src="temp/images/logo.png" alt="Image"/></a>
+            <a><img src="/temp/images/logo.png" alt="Image"/></a>
           </router-link>
         </div>
         <!-- end logo -->
@@ -33,8 +33,8 @@
             <u>marianne led</u> welcomed offended but offering six raptures.
           </p>
           <figure class="gallery">
-            <img src="temp/images/slide02.jpg" alt="Image" /><img
-              src="temp/images/slide03.jpg"
+            <img src="/temp/images/slide02.jpg" alt="Image" /><img
+              src="/temp/images/slide03.jpg"
               alt="Image"
             />
           </figure>
@@ -104,14 +104,10 @@
                     </router-link>
                   </li>
                   <li>
-                  <router-link :to="{ name: 'teams' }">
-                    {{
-                      this.$trans(
-                        "static.components.header.menu.teams"
-                      )
-                    }}
-                  </router-link>
-                </li>
+                    <router-link :to="{ name: 'teams' }">
+                      {{ this.$trans("static.components.header.menu.teams") }}
+                    </router-link>
+                  </li>
                 </ul>
               </li>
               <li>
@@ -131,7 +127,7 @@
               </li>
               <li>
                 <router-link :to="{ name: 'contactus' }">{{
-                  this.$trans("components.header.menu.contactus")
+                  this.$trans("static.components.header.menu.contactus")
                 }}</router-link>
               </li>
             </ul>
@@ -149,7 +145,7 @@
       <div class="container">
         <div class="logo">
           <router-link :to="{ name: 'index' }">
-            <img src="temp/images/logo.png" alt="Image" />
+            <img src="/temp/images/logo.png" alt="Image" />
           </router-link>
         </div>
         <!-- end logo -->
@@ -201,11 +197,7 @@
                 </li>
                 <li>
                   <router-link :to="{ name: 'teams' }">
-                    {{
-                      this.$trans(
-                        "static.components.header.menu.teams"
-                      )
-                    }}
+                    {{ this.$trans("static.components.header.menu.teams") }}
                   </router-link>
                 </li>
               </ul>
@@ -243,6 +235,23 @@
         </div>
         <!-- end hamburger -->
         <!-- end hamburher -->
+        <a href="#" class="navbar-button" data-fancybox v-if="!user">
+          <router-link :to="{ name: 'loginorregister' }">
+            <i class="lni lni-user"></i>
+            <span>{{
+              this.$trans("static.components.header.menu.loginorregister")
+            }}</span></router-link
+          >
+        </a>
+        <a href="#" class="navbar-button" data-fancybox v-else-if="user">
+          <router-link :to="{ name: 'profile' }">
+            <i class="lni lni-user"></i>
+            <span>{{
+              this.$trans("static.components.header.menu.profile")
+            }}</span></router-link
+          >
+        </a>
+
       </div>
       <!-- end container -->
     </nav>
@@ -253,8 +262,14 @@
 <script>
 export default {
   name: "Header",
-  updated: function() {
-    console.log(this.$lang.getLocale());
+  props: [ "userinf" ],
+  data: function() {
+    return {
+      user: null
+    };
+  },
+  created: function() {
+    this.user = this.userinf;
   }
 };
 </script>

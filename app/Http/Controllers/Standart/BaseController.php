@@ -12,6 +12,6 @@ class BaseController extends Controller
     }
 
     public function fallback(){
-        return redirect("/#/notfound");
+        return redirect("/notfound");
     }
 }
