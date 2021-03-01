@@ -13,6 +13,8 @@ import Login from './components/user/loginorregister';
 import Profile from './components/user/profile';
 import NotFound from './components/layouts/notfound';
 
+import store from './store'
+
 const routes=[
     {path:"/",name:"index",component:Index},
     {path:"/notfound",name:"notfound",component:NotFound},
@@ -25,28 +27,29 @@ const routes=[
     {path:"/contactus",name:"contactus",component:Contact},
     {path:"/posts",name:"posts",component:Posts},
     {path:"/post/:slug",name:"post",component:Post},
-    {path:"/loginorregister",name:"loginorregister",component:Login},
-    {path:"/profile",name:"profile",component:Profile}
+    {path:"/loginorregister",name:"loginorregister",component:Login,beforeEnter: (to, from, next) => {
+        if (store.getters['auth/authenticated']) {
+            return next({
+                name:'profile',
+            })
+        }
+        next();
+    }},
+    {path:"/profile",name:"profile",component:Profile,beforeEnter: (to, from, next) => {
+        if (!store.getters['auth/authenticated']) {
+            return next({
+                name:'loginorregister',
+            })
+        }
+        next();
+    }}
 ];
 
 const router=new VueRouter({
     mode:"history",
+    base:process.env.BASE_URL,
     routes,
-
 });
-
-router.beforeEach((to, from, next) => {
-    if (to.fullPath !== "/login") {
-        axios.get('/api/profile').then(response => {
-            next();
-        }).catch(error => {
-            router.push('/login');
-        })
-    } else {
-        next();
-    }
-})
-
 
 export default router;
 

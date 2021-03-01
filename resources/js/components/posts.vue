@@ -24,23 +24,22 @@
       <div class="container">
         <div class="row">
           <div class="col-lg-8">
-            <div class="news-box" v-for="item in items" :key="item.id">
+            <div class="news-box" v-for="item in news" :key="item.id">
               <figure>
-                <img src="temp/images/slide01.jpg" alt="Image" />
+                <img v-bind:src="hashImageUrl(item.cover)" alt="Image" />
               </figure>
               <div class="content">
-                <small>29 February, 2020</small>
+                <small>{{ dateConvert(item.created_at) }}</small>
                 <h3>
                   <a href="#">
                     <router-link to="/post/slugishere">
-                      {{ item.name }}</router-link
+                      {{ item.az_name }}</router-link
                     ></a
                   >
                 </h3>
-                <div class="author">
-                  <img src="temp/images/author01.jpg" alt="Image" />
-                  <span
-                    >by <b>{{ item.content }}</b></span
+                <div>
+                  <span v-html="item.az_description.substring(0,400)"
+                    ></span
                   >
                 </div>
                 <!-- end author -->
@@ -49,11 +48,6 @@
             </div>
             <!-- end news-box -->
 
-            <!-- end news-box -->
-            <ul class="pagination">
-              <li class="page-item"><a class="page-link" href="#">{{this.$trans("static.components.pagination.prev")}}</a></li>
-              <li class="page-item"><a class="page-link" href="#">{{this.$trans("static.components.pagination.next")}}</a></li>
-            </ul>
             <!-- end pagination -->
           </div>
           <!-- end col-8 -->
@@ -69,14 +63,8 @@
               <!-- end widget -->
               <div class="widget">
                 <h6 class="widget-title">{{this.$trans("static.components.header.menu.categories")}}</h6>
-                <ul class="categories">
-                  <li><a href="#">Business</a></li>
-                  <li><a href="#">Construction</a></li>
-                  <li><a href="#">Buildings</a></li>
-                  <li><a href="#">Development</a></li>
-                  <li><a href="#">Apartments</a></li>
-                  <li><a href="#">Condos</a></li>
-                  <li><a href="#">Villas & Houses</a></li>
+                <ul class="categories" v-for="cat in categories" :key="cat.id">
+                  <li><a href="#">{{cat.az_name}}</a></li>
                 </ul>
               </div>
               <!-- end widget -->
@@ -104,21 +92,41 @@
 </template>
 
 <script>
-import Pagination from "./layouts/pagination.vue";
+import moment from 'moment'
+
 export default {
-  components: { Pagination },
   name: "Posts",
   data: function() {
     return {
-      items: [
-        { id: 1, name: "Name1", content: "Content" },
-        { id: 2, name: "Name2", content: "Content" },
-        { id: 3, name: "Name3", content: "Content" }
-      ]
+      news:null,
+      categories:null,
     };
   },
   beforeCreate: function() {
     window.document.title = this.$trans("static.components.header.menu.posts");
+  },
+  created() {
+      this.getPosts()
+      this.getCats()
+  },
+  methods:{
+     async getPosts(){
+          let response=await axios.get('/alov/news');
+          this.news=response.data;
+      },
+      async getCats(){
+          let response=await axios.get('/alov/categories');
+          this.categories=response.data;
+      },
+     async hashImageUrl(image){
+         await axios.post('/actions/hashimageurl',{'image':image}).then(response=>{
+                return JSON.stringify(response.data);
+          });
+
+      },
+      dateConvert(date){
+          return moment(String(date)).format('DD/MM/YYYY')
+      },
   }
 };
 </script>

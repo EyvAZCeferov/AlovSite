@@ -491,42 +491,14 @@
     <!-- end content-section -->
     <div class="content-section" data-background="#f7f6f1">
       <div class="container">
-        <div class="row no-gutters">
+        <div class="row no-gutters" v-for="item in customers" :key="item.id">
+
           <div class="col-lg-2 col-md-4 col-6">
             <figure class="logo-item">
               <img src="temp/images/logo01.png" alt="Image" />
             </figure>
           </div>
-          <!-- end col-2 -->
-          <div class="col-lg-2 col-md-4 col-6">
-            <figure class="logo-item">
-              <img src="temp/images/logo02.png" alt="Image" />
-            </figure>
-          </div>
-          <!-- end col-2 -->
-          <div class="col-lg-2 col-md-4 col-6">
-            <figure class="logo-item">
-              <img src="temp/images/logo03.png" alt="Image" />
-            </figure>
-          </div>
-          <!-- end col-2 -->
-          <div class="col-lg-2 col-md-4 col-6">
-            <figure class="logo-item">
-              <img src="temp/images/logo04.png" alt="Image" />
-            </figure>
-          </div>
-          <!-- end col-2 -->
-          <div class="col-lg-2 col-md-4 col-6">
-            <figure class="logo-item">
-              <img src="temp/images/logo05.png" alt="Image" />
-            </figure>
-          </div>
-          <!-- end col-2 -->
-          <div class="col-lg-2 col-md-4 col-6">
-            <figure class="logo-item">
-              <img src="temp/images/logo06.png" alt="Image" />
-            </figure>
-          </div>
+
           <!-- end col-2 -->
         </div>
         <!-- end row -->
@@ -545,69 +517,22 @@
             <!-- end section-title -->
           </div>
           <!-- end col-12 -->
-          <div class="col-lg-5">
-            <div class="recent-news">
-              <figure><img src="temp/images/slide01.jpg" alt="Image" /></figure>
-              <div class="content">
-                <small>29 February, 2020</small>
-                <h3>
-                  <a href="#"
-                    >Result of a challenge I participated in as a guest on The
-                    Futuristic</a
-                  >
-                </h3>
-                <div class="author">
-                  <img src="temp/images/author01.jpg" alt="Image" />
-                  <span>by <b>Consto Editor</b></span>
-                </div>
-                <!-- end author -->
-              </div>
-              <!-- end content -->
-            </div>
-            <!-- end recent-news -->
           </div>
           <!-- end col-5 -->
           <div class="col-lg-7">
-            <div class="row inner">
+            <div class="row inner" v-for="item in news" :key="item.id">
+
               <div class="col-md-6">
                 <div class="recent-news">
                   <figure>
-                    <img src="temp/images/slide02.jpg" alt="Image" />
+                    <img :src="hashImageUrl(item.cover)" :alt="item.az_name" />
                   </figure>
                   <div class="content">
-                    <small>29 February, 2020</small>
+                    <small>{{dateConvert(item.created_at)}}</small>
                     <h3>
-                      <a href="#"
-                        >Challenge I participated in as a guest on all font</a
-                      >
+                      <router-link :to="item.slug">{{item.az_name}}
+                          </router-link>
                     </h3>
-                    <div class="author">
-                      <img src="temp/images/author01.jpg" alt="Image" />
-                      <span>by <b>Consto Editor</b></span>
-                    </div>
-                    <!-- end author -->
-                  </div>
-                  <!-- end content -->
-                </div>
-                <!-- end recent-news -->
-              </div>
-              <!-- end col-4 -->
-              <div class="col-md-6">
-                <div class="recent-news">
-                  <figure>
-                    <img src="temp/images/slide03.jpg" alt="Image" />
-                  </figure>
-                  <div class="content">
-                    <small>29 February, 2020</small>
-                    <h3>
-                      <a href="#"
-                        >Participated challenge in as a guest on The Future</a
-                      >
-                    </h3>
-                    <div class="author">
-                      <img src="temp/images/author01.jpg" alt="Image" />
-                      <span>by <b>Consto Editor</b></span>
-                    </div>
                     <!-- end author -->
                   </div>
                   <!-- end content -->
@@ -629,36 +554,72 @@
 </template>
 
 <script>
+import moment from 'moment'
+
 export default {
   name: "Index",
   beforeCreate: function() {
     window.document.title = this.$trans("static.components.header.menu.home");
   },
+  data() {
+    return {
+      sliders: null,
+      categories: null,
+      about: null,
+      teams: null,
+      projects: null,
+      news: null,
+      customers: null
+    };
+  },
   created() {
-    var scripts = [
-      "temp/js/swiper.min.js",
-      "temp/js/fancybox.min.js",
-      "temp/js/odometer.min.js",
-      "temp/js/isotope.min.js",
-      "temp/js/scripts.js",
-    ];
-    var links=[
-        "temp/css/lineicons.css",
-        "temp/css/odometer.min.css",
-        "temp/css/fancybox.min.css",
-        "temp/css/swiper.min.css",
-    ];
-    scripts.forEach(script => {
-      let tagscr = document.createElement("script");
-      tagscr.setAttribute("src", script);
-      document.head.appendChild(tagscr);
-    });
-    links.forEach(link => {
-      let taglink = document.createElement("link");
-      taglink.setAttribute("href", link);
-      taglink.setAttribute("rel","stylesheet");
-      document.head.appendChild(taglink);
-    });
+    this.onload();
+  },
+  methods: {
+    async get_sliders() {
+      let response = await axios.get("alov/sliders");
+      this.sliders = response.data;
+    },
+    async get_categories() {
+      let response = await axios.get("alov/categories");
+      this.categories = response.data;
+    },
+    async get_about() {
+      let response = await axios.get("alov/about");
+      this.about = response.data;
+    },
+    async get_teams() {
+      let response = await axios.get("alov/teams");
+      this.teams = response.data;
+    },
+    async get_projects() {
+      let response = await axios.get("alov/projects");
+      this.projects = response.data;
+    },
+    async get_news() {
+      let response = await axios.get("alov/news");
+      this.news = response.data;
+    },
+    async get_customers() {
+      let response = await axios.get("alov/customers");
+      this.customers = response.data;
+    },
+    async hashImageUrl(image){
+       await axios.post('/actions/hashimageurl',{'image':image}).then((response) => {
+            return response.data;
+        });
+    },
+    dateConvert(date){
+          return moment(String(date)).format('DD/MM/YYYY')
+    },
+    onload(){
+        this.get_sliders()
+        this.get_categories()
+        this.get_about()
+        this.get_teams()
+        this.get_projects()
+        this.get_news()
+    }
   }
 };
 </script>

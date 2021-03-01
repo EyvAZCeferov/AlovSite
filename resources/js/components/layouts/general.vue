@@ -1,12 +1,11 @@
 <template>
   <span>
-    <div class="firstTransition"></div>
-    <!-- end first-transition -->
-    <div class="pageTransition"></div>
-    <Header v-bind:userinf={user} />
-    <transition name="firstTransition">
-      <router-view></router-view>
-    </transition>
+    <!-- <div class="firstTransition"></div>
+   <div class="pageTransition"></div> -->
+    <Header />
+    <!-- <transition name="firstTransition"> -->
+    <router-view></router-view>
+    <!-- </transition> -->
     <Footer />
   </span>
 </template>
@@ -14,28 +13,20 @@
 <script>
 import Header from "./header";
 import Footer from "./footer";
+import {mapActions} from 'vuex';
 export default {
   name: "General",
   components: {
     Header,
     Footer
   },
-  created() {
-    this.getUser();
+  methods:{
+      ...mapActions({
+          refresh:"auth/refresh",
+      }),
   },
-  methods: {
-    getUser() {
-      axios.get("/api/profile").then(response => {
-        this.user = response.data;
-      }).catch(e=>{
-          return false;
-      });
-    }
-  },
-  data: function() {
-    return {
-      user: null
-    };
+  created:function(){
+      this.refresh();
   }
 };
 </script>

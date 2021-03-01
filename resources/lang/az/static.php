@@ -64,6 +64,7 @@ return [
             "message"=>"Məktub",
             "typeemail"=>"Emailinizi daxil edin",
             "phoneNumb"=>"Telefon nömrəsi",
+            "phoneNumboremail"=>"Telefon nömrəsi və ya Elektron poçt",
             "password"=>"Şifrə",
         ],
         "buttons"=>[
@@ -72,5 +73,8 @@ return [
             "search"=>"Axtar",
             "sendNow"=>"Göndər",
         ],
-    ]
+    ],
+    "actions"=>[
+        "logined"=>"Hesabınıza daxil oldunuz."
+    ],
 ];

@@ -24,109 +24,26 @@
       <div class="container">
         <div class="row">
           <div class="col-12">
-            <ul class="isotope-filter">
-              <li data-filter="*" class="current">ALL</li>
-              <li data-filter=".one">BUILDING</li>
-              <li data-filter=".two">COMMERCIAL</li>
-              <li data-filter=".three">VILLAS</li>
+            <ul class="isotope-filter" >
+                <li data-filter="*">All</li>
+                <template v-if="categories" v-for="cat in categories">
+                  <li :data-filter="'.class-'+cat.id" >{{cat.az_name}}</li>
+                </template>
             </ul>
           </div>
           <!-- end col-12 -->
           <div class="col-12">
-            <ul class="projects">
-              <li class="one">
+            <ul class="projects" v-for="project in projects" :key="project.slug">
+
+              <li :class="'class-'+project.cat_id">
                 <figure class="project-box">
                   <a href="#">
-                    <router-link to="/project/slugis">
-                      <img src="temp/images/slide01.jpg" alt="Image" />
+                    <router-link :to="'project/'+project.slug">
+                      <img v-bind:src="hashImageUrl(project.cover)" alt="Image" />
                     </router-link>
                   </a>
                   <figcaption>
-                    <h5>Quark Life Homes</h5>
-                  </figcaption>
-                </figure>
-                <!-- end project-box -->
-              </li>
-              <!-- end li -->
-              <li class="two">
-                <figure class="project-box">
-                  <a href="project-single.html"
-                    ><img src="temp/images/slide02.jpg" alt="Image"
-                  /></a>
-                  <figcaption>
-                    <h5>River Life Residence</h5>
-                  </figcaption>
-                </figure>
-                <!-- end project-box -->
-              </li>
-              <!-- end li -->
-              <li class="three">
-                <figure class="project-box">
-                  <a href="project-single.html"
-                    ><img src="temp/images/slide03.jpg" alt="Image"
-                  /></a>
-                  <figcaption>
-                    <h5>Orgue Shopping Mall</h5>
-                  </figcaption>
-                </figure>
-                <!-- end project-box -->
-              </li>
-              <!-- end li -->
-              <li class="one">
-                <figure class="project-box">
-                  <a href="project-single.html"
-                    ><img src="temp/images/slide04.jpg" alt="Image"
-                  /></a>
-                  <figcaption>
-                    <h5>Green Socks Villas</h5>
-                  </figcaption>
-                </figure>
-                <!-- end project-box -->
-              </li>
-              <!-- end li -->
-              <li class="two">
-                <figure class="project-box">
-                  <a href="project-single.html"
-                    ><img src="temp/images/slide05.jpg" alt="Image"
-                  /></a>
-                  <figcaption>
-                    <h5>Prensten Hudson's</h5>
-                  </figcaption>
-                </figure>
-                <!-- end project-box -->
-              </li>
-              <!-- end li -->
-              <li class="three">
-                <figure class="project-box">
-                  <a href="project-single.html"
-                    ><img src="temp/images/slide06.jpg" alt="Image"
-                  /></a>
-                  <figcaption>
-                    <h5>York Education Center</h5>
-                  </figcaption>
-                </figure>
-                <!-- end project-box -->
-              </li>
-              <!-- end li -->
-              <li class="one">
-                <figure class="project-box">
-                  <a href="project-single.html"
-                    ><img src="temp/images/slide07.jpg" alt="Image"
-                  /></a>
-                  <figcaption>
-                    <h5>Miamy Beach House</h5>
-                  </figcaption>
-                </figure>
-                <!-- end project-box -->
-              </li>
-              <!-- end li -->
-              <li class="two">
-                <figure class="project-box">
-                  <a href="project-single.html"
-                    ><img src="temp/images/slide08.jpg" alt="Image"
-                  /></a>
-                  <figcaption>
-                    <h5>All Life Resorts</h5>
+                    <h5>{{project.az_name}}</h5>
                   </figcaption>
                 </figure>
                 <!-- end project-box -->
@@ -150,6 +67,12 @@ export default {
     window.document.title = this.$trans(
       "static.components.header.menu.projects"
     );
+  },
+  data:function(){
+    return{
+      categories:null,
+      projects:null,
+    }
   },
   created() {
     var scripts = [
@@ -176,6 +99,22 @@ export default {
       taglink.setAttribute("rel","stylesheet");
       document.head.appendChild(taglink);
     });
+    this.getCats()
+    this.getProjects()
+  },
+  methods:{
+     async getCats(){
+          let response=await axios.get('/alov/categories');
+          this.categories=response.data;
+      },
+      async getProjects(){
+          let response=await axios.get('/alov/projects');
+          this.projects=response.data;
+      },
+      async hashImageUrl(image){
+          let response=await axios.post('/actions/hashimageurl',{'image':image});
+          return response.data
+      }
   }
 };
 </script>

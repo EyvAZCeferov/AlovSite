@@ -35,21 +35,25 @@
             </div>
 
             <!-- end section-title -->
-            <form class="contact-form">
+            <form class="contact-form" @submit.prevent="login">
               <div class="form-group">
-                <span>{{ this.$trans("static.form.labels.phoneNumb") }}</span>
-                <input type="text" />
+                <span>{{
+                  this.$trans("static.form.labels.phoneNumboremail")
+                }}</span>
+                <input type="text" v-model="form.phoneNumber" />
               </div>
               <!-- end form-group -->
               <div class="form-group">
                 <span>{{ this.$trans("static.form.labels.password") }}</span>
-                <input type="password" />
+                <input type="password" v-model="form.password" />
               </div>
               <!-- end form-group -->
               <div class="form-group">
                 <input
                   type="submit"
-                  v-bind:value="this.$trans('static.pages.loginregister.titles.login')"
+                  v-bind:value="
+                    this.$trans('static.pages.loginregister.titles.login')
+                  "
                 />
               </div>
               <!-- end form-group -->
@@ -62,21 +66,23 @@
                 {{ this.$trans("static.pages.loginregister.titles.register") }}
               </h6>
             </div>
-            <form class="contact-form">
+            <form class="contact-form" @submit.prevent="register">
               <div class="form-group">
                 <span>{{ this.$trans("static.form.labels.phoneNumb") }}</span>
-                <input type="text" />
+                <input type="text" v-model="form.phoneNumber" />
               </div>
               <!-- end form-group -->
               <div class="form-group">
                 <span>{{ this.$trans("static.form.labels.password") }}</span>
-                <input type="password" />
+                <input type="password" v-model="form.password" />
               </div>
               <!-- end form-group -->
               <div class="form-group">
                 <input
                   type="submit"
-                  v-bind:value="this.$trans('static.pages.loginregister.titles.register')"
+                  v-bind:value="
+                    this.$trans('static.pages.loginregister.titles.register')
+                  "
                 />
               </div>
               <!-- end form-group -->
@@ -91,12 +97,39 @@
 </template>
 
 <script>
+import {mapActions} from 'vuex';
 export default {
   name: "LoginOrRegister",
+  data: function() {
+    return {
+      form: {
+        phoneNumber: null,
+        password: null
+      }
+    };
+  },
   beforeCreate: function() {
     window.document.title = this.$trans(
       "static.components.header.menu.loginorregister"
     );
+  },
+  methods: {
+      ...mapActions({
+          signin:"auth/signin",
+      }),
+    login() {
+      this.signin(this.form).then(()=>{
+          this.$toast.success(this.trans("actions.logined"));
+          this.$router.replace({
+              name:"profile"
+          });
+      }).catch((e)=>{
+          this.$toast.error(e);
+      });
+    },
+    register() {
+      console.log();
+    }
   }
 };
 </script>

@@ -23,45 +23,18 @@
     <section class="content-section">
       <div class="container">
         <div class="row">
-          <div class="col-lg-4">
+
+          <div class="col-lg-4"  v-for="cat in categories" :key="cat.id">
             <div class="icon-content">
-              <figure><img src="temp/images/icon01.png" alt="Image" /></figure>
-              <h3>We plan with sensetive</h3>
-              <small
-                >The awards for design, creativity and innovation on the
-                Internet</small
-              >
-              <a href="#">+</a>
+              <figure><img :src="hashImageUrl(cat.image)" alt="Image" /></figure>
+              <h3>{{cat.az_name}}</h3>
+              <small v-html="cat.az_description.substring(0,180)"></small>
+              <router-link :to="{ name:'/categories/'+ cat.slug }"><a href="#">+</a></router-link>
             </div>
             <!-- end icon-content -->
           </div>
           <!-- end col-4 -->
-          <div class="col-lg-4">
-            <div class="icon-content">
-              <figure><img src="temp/images/icon02.png" alt="Image" /></figure>
-              <h3>For futuristic buildings</h3>
-              <small
-                >Twenty spring of in esteem spirit likely estate continue new
-                building</small
-              >
-              <a href="#">+</a>
-            </div>
-            <!-- end icon-content -->
-          </div>
-          <!-- end col-4 -->
-          <div class="col-lg-4">
-            <div class="icon-content">
-              <figure><img src="temp/images/icon03.png" alt="Image" /></figure>
-              <h3>Make living beautiful</h3>
-              <small
-                >Sympathize it projection ye insipidity celebrated our
-                pianoforte</small
-              >
-              <a href="#">+</a>
-            </div>
-            <!-- end icon-content -->
-          </div>
-          <!-- end col-4 -->
+
         </div>
         <!-- end row -->
       </div>
@@ -71,12 +44,35 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
   name: "Categories",
   beforeCreate: function() {
     window.document.title = this.$trans(
       "static.components.header.menu.categories"
     );
+  },
+  data:function(){
+      return{
+          categories:null,
+      }
+  },
+  created:function(){
+    this.getCats();
+  },
+  methods:{
+     async getCats(){
+          let response=await axios.get('/alov/categories');
+          this.categories=response.data;
+      },
+      async hashImageUrl(image){
+          let response=await axios.post('/actions/hashimageurl',{'image':image});
+          return response.data;
+      }
   }
 };
 </script>
+
+
+
+

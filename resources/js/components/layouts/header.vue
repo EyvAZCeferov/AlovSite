@@ -23,7 +23,7 @@
       <div class="inner">
         <div class="logo">
           <router-link :to="{ name: 'index' }">
-            <a><img src="/temp/images/logo.png" alt="Image"/></a>
+            <img src="/temp/images/logo.png" alt="Image"/>
           </router-link>
         </div>
         <!-- end logo -->
@@ -235,7 +235,7 @@
         </div>
         <!-- end hamburger -->
         <!-- end hamburher -->
-        <a href="#" class="navbar-button" data-fancybox v-if="!user">
+        <a href="#" class="navbar-button" data-fancybox v-if="!authenticated">
           <router-link :to="{ name: 'loginorregister' }">
             <i class="lni lni-user"></i>
             <span>{{
@@ -243,7 +243,8 @@
             }}</span></router-link
           >
         </a>
-        <a href="#" class="navbar-button" data-fancybox v-else-if="user">
+
+        <a href="#" class="navbar-button" data-fancybox v-else>
           <router-link :to="{ name: 'profile' }">
             <i class="lni lni-user"></i>
             <span>{{
@@ -260,16 +261,19 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
   name: "Header",
-  props: [ "userinf" ],
-  data: function() {
-    return {
-      user: null
-    };
+  computed: {
+    ...mapGetters({
+        authenticated:'auth/authenticated',
+        user:'auth/user',
+    }),
   },
-  created: function() {
-    this.user = this.userinf;
-  }
 };
+
 </script>
+
+
+

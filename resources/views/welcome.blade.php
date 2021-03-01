@@ -1,8 +1,6 @@
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
-<!-- Mirrored from themezinho.net/consto// by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 04 Feb 2021 04:52:20 GMT -->
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">

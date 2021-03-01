@@ -35,8 +35,7 @@
               </figure>
               <h6>{{ this.$trans("static.components.footer.looc.title") }}</h6>
               <p>
-                228 Cardigan Road, Leeds<br />
-                Geneva Switzerland
+                Addressss
               </p>
             </div>
             <!-- end contact-box -->
@@ -48,7 +47,7 @@
                 <img src="temp/images/icon-phone.png" alt="Image" />
               </figure>
               <h6>{{ this.$trans("static.pages.contactus.top.telephone") }}</h6>
-              <p>+1 (850) 344 0 66 <br />Dial #20</p>
+              <p>{{settings.phoneNumb}}</p>
             </div>
             <!-- end contact-box -->
           </div>
@@ -59,7 +58,7 @@
                 <img src="temp/images/icon-email.png" alt="Image" />
               </figure>
               <h6>{{ this.$trans("static.pages.contactus.top.writeus") }}</h6>
-              <p><a href="#">info@consto.co.uk</a><br />for all purpose</p>
+              <p><a :href="'mailto:'+settings.email">{{settings.email}}</a><br /></p>
             </div>
             <!-- end contact-box -->
           </div>
@@ -78,9 +77,10 @@
               <h6>{{ this.$trans("static.pages.contactus.top.social") }}</h6>
               <h2>
                 <p>
-                  <a href="#"><i class="fab fa-facebook-f"></i></a>
-                  <a href="#"><i class="fab fa-youtube"></i></a>
-                  <a href="#"><i class="fab fa-twitter"></i></a>
+                  <a :href="settings.facebook_page"><i class="fab fa-facebook-f"></i></a>
+                  <a :href="settings.youtube_page"><i class="fab fa-youtube"></i></a>
+                  <a :href="settings.twitter_page"><i class="fab fa-twitter"></i></a>
+                  <a :href="settings.instagram_page"><i class="fab fa-instagram"></i></a>
                 </p>
               </h2>
             </div>
@@ -140,10 +140,25 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
   name: "Contact",
   beforeCreate: function() {
     window.document.title = this.$trans("static.components.header.menu.contactus");
-  }
+  },
+  created() {
+      this.settingsGet();
+  },
+  data() {
+      return {
+          settings:null,
+      }
+  },
+  methods: {
+      async settingsGet(){
+          let response=await axios.get('alov/settings')
+          this.settings=response.data
+      }
+  },
 };
 </script>
