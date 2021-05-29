@@ -14,7 +14,7 @@ class CreateSettingsTable extends Migration
     public function up()
     {
         Schema::create('settings', function (Blueprint $table) {
-            $table->id()->default(1);
+            $table->id();
             $table->text("projectName");
             $table->text("logo");
             $table->mediumText("description");
